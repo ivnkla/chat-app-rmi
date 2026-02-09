@@ -1,18 +1,46 @@
 #!/bin/bash
 
+echo "> cleaning up"
 rm -rf classes lib
 mkdir -p classes lib
 
-javac -d classes -classpath .:classes src/Hello.java
+echo "> compiling client interface"
+javac -d classes -classpath .:classes src/ClientEndpoint.java
 cd classes
-jar cf ../lib/Hello.jar Hello.class
+jar cf ../lib/ClientEndpoint.jar ClientEndpoint.class
 cd ..
 
-javac -d classes -classpath .:classes src/HelloImpl.java
+
+echo "> compiling server object files"
+javac -d classes -classpath .:classes src/ChatService.java
 cd classes
-jar cf ../lib/HelloImpl.jar HelloImpl.class
+jar cf ../lib/ChatService.jar ChatService.class
 cd ..
 
-javac -d classes -cp .:classes:lib/Hello.jar:lib/HelloImpl.jar src/HelloServer.java
-javac -d classes -cp .:classes:lib/Hello.jar src/HelloClient.java
-export CLASSPATH=classes
+
+
+echo "> compiling server interface implementation"
+javac -d classes -classpath .:classes src/ChatServiceImpl.java
+cd classes
+jar cf ../lib/ChatServiceImpl.jar ChatServiceImpl.class
+cd ..
+
+echo "> compiling client interface implementation"
+javac -d classes -classpath .:classes src/ClientEndpointImpl.java
+cd classes
+jar cf ../lib/ClientEndpointImpl.jar ClientEndpointImpl.class
+cd ..
+
+
+echo "> compiling server"
+javac -d classes -cp .:classes:lib/ChatService.jar:lib/ChatServiceImpl.jar src/ChatServer.java
+
+echo "> compiling client"
+javac -d classes -cp .:classes:lib/ChatService.jar:lib/ClientEndpointImpl.jar src/ChatClient.java
+
+cp="classes"
+
+echo "> setting CLASSPATH to $cp"
+export CLASSPATH=$i
+
+echo "*Done*"

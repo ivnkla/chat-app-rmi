@@ -2,13 +2,13 @@
 import java.rmi.server.*;
 import java.rmi.registry.*;
 
-public class HelloServer {
+public class ChatServer {
 
   public static void  main(String [] args) {
 	  try {
-		  // Create a Hello remote object
-	    HelloImpl h = new HelloImpl ("Hello world !");
-	    Hello h_stub = (Hello) UnicastRemoteObject.exportObject(h, 0);
+		  // Create a ChatServer remote object
+	    ChatServiceImpl h = new ChatServiceImpl ("Hello world !");
+	    ChatService h_stub = (ChatService) UnicastRemoteObject.exportObject(h, 0);
 
 	    // Register the remote object in RMI registry with a given identifier
 	    Registry registry = null;
@@ -16,7 +16,7 @@ public class HelloServer {
 		    registry= LocateRegistry.getRegistry(Integer.parseInt(args[0])); 
 	    else
 		    registry = LocateRegistry.getRegistry();
-	    registry.rebind("HelloService", h_stub);
+	    registry.rebind("ChatServerService", h_stub);
 
 	    System.out.println ("Server ready");
 
