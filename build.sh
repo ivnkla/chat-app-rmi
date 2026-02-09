@@ -41,6 +41,6 @@ javac -d classes -cp .:classes:lib/ChatService.jar:lib/ClientEndpointImpl.jar sr
 cp="classes"
 
 echo "> setting CLASSPATH to $cp"
-export CLASSPATH=$i
+export CLASSPATH=$cp
 
 echo "*Done*"

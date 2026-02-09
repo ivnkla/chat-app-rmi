@@ -4,8 +4,9 @@ public class ClientEndpointImpl implements ClientEndpoint {
 
     @Override
     public void sendMessage(String msg) throws RemoteException {
-        System.out.print(msg);
+        System.out.println(msg);
     }
+
 
     
 }

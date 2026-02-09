@@ -1,5 +1,8 @@
+import java.rmi.RemoteException;
 import java.rmi.registry.*;
 import java.rmi.server.UnicastRemoteObject;
+
+import java.util.Scanner; 
 
 public class ChatClient {
   public static void main(String [] args) {
@@ -19,12 +22,25 @@ public class ChatClient {
 	ClientEndpoint client_stub = (ClientEndpoint) UnicastRemoteObject.exportObject(clientEndpoint, 0);
 
 	// Remote method invocation
-	String res = h.join(client_stub);
-	System.out.println(res);
+	int id = h.join(client_stub);
+
+	Scanner scanner = new Scanner(System.in);
+	String msg;
+	do  {
+		msg = scanner.nextLine();
+		h.sendMessage(id,msg);
+	} while (msg != "");
+	scanner.close();
+	if (h.leave(id) == id) {
+		System.out.println("Gracefully terminating");
+	} else {
+		throw new RemoteException("Leaving failed");
+	}
 
 	} catch (Exception e)  {
 //		System.err.println("Error on client: " + e);
 		e.printStackTrace();
 	}
+	System.exit(0);
   }
 }
