@@ -1,6 +1,9 @@
 
 import java.rmi.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -8,14 +11,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public  class ChatServiceImpl implements ChatService {
 
 	//Using a Dictornary with only atomic functions to guarantee threadsafty
-	private ConcurrentHashMap<Integer,ClientEndpoint> clients;
+	private ConcurrentHashMap<Integer,ClientEndpoint> clients = new ConcurrentHashMap<Integer,ClientEndpoint>();;
+	private List<Message> messages = Collections.synchronizedList(new ArrayList<>());; 
 	private Random random = new Random();
 	private Date date = new Date();
 	private int range = 20000;
+	private String welcome_message;
 	
 	public ChatServiceImpl(String s) {
-		this.clients = new ConcurrentHashMap<Integer,ClientEndpoint>();
-		
+		welcome_message = s;
 	}
 
 	//get a random free ID for a new client
@@ -36,13 +40,21 @@ public  class ChatServiceImpl implements ChatService {
 		int newID = createID();
 		System.out.println(String.format("[%s] Initalizing new client %d", date.toString(), newID));
 		clients.put(newID,client_stub);
-		client_stub.sendMessage(String.format("Welcome %d",newID));
+		client_stub.sendMessage(String.format("%s %d",welcome_message, newID));
+		client_stub.sendMessage(String.format("--- Start of History ---"));
+		for (Message msg: messages) {
+			client_stub.sendMessage(String.format("[%s] %d: %s", msg.timestamp, msg.sender, msg.content));
+		}
+		client_stub.sendMessage(String.format("--- End of History ---"));
+		
 		return newID;
 	}
 
 	@Override
 	public void sendMessage(int client_id, String msg){
 		System.out.println(String.format("[%s] New Message from %d at : %s", date.toString(), client_id, msg));
+		
+		messages.add(new Message(msg,date.toString(),client_id));
 		//TODO check for threadsafety
 		//ToDo add client identifier, probably as own object
 		for (Map.Entry<Integer, ClientEndpoint> client : clients.entrySet()) {

@@ -17,6 +17,11 @@ cd classes
 jar cf ../lib/ChatService.jar ChatService.class
 cd ..
 
+echo "> compiling message object files"
+javac -d classes -classpath .:classes src/Message.java
+cd classes
+jar cf ../lib/Message.jar Message.class
+cd ..
 
 
 echo "> compiling server interface implementation"
@@ -40,7 +45,5 @@ javac -d classes -cp .:classes:lib/ChatService.jar:lib/ClientEndpointImpl.jar sr
 
 cp="classes"
 
-echo "> setting CLASSPATH to $cp"
-export CLASSPATH=$cp
-
-echo "*Done*"
+#Can not be run in subshell
+echo "*Done* Remember to run 'export CLASSPATH=$cp'"
