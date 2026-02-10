@@ -21,15 +21,16 @@ public class ChatClient {
 	ClientEndpointImpl clientEndpoint = new ClientEndpointImpl();
 	ClientEndpoint client_stub = (ClientEndpoint) UnicastRemoteObject.exportObject(clientEndpoint, 0);
 
-	// Remote method invocation
+	// Remote method invocation	
 	int id = h.join(client_stub);
 
 	Scanner scanner = new Scanner(System.in);
 	String msg;
-	do  {
-		msg = scanner.nextLine();
+	msg = scanner.nextLine();
+	while (msg != "")  {
 		h.sendMessage(id,msg);
-	} while (msg != "");
+		msg = scanner.nextLine();
+	} 
 	scanner.close();
 	if (h.leave(id) == id) {
 		System.out.println("Gracefully terminating");

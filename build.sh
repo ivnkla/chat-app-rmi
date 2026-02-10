@@ -30,6 +30,14 @@ cd classes
 jar cf ../lib/ChatServiceImpl.jar ChatServiceImpl.class
 cd ..
 
+
+echo "> compiling deserializer"
+javac -d classes -classpath .:classes src/Deserializer.java
+cd classes
+jar cf ../lib/Deserializer.jar Deserializer.class
+cd ..
+
+
 echo "> compiling client interface implementation"
 javac -d classes -classpath .:classes src/ClientEndpointImpl.java
 cd classes
@@ -37,13 +45,11 @@ jar cf ../lib/ClientEndpointImpl.jar ClientEndpointImpl.class
 cd ..
 
 
-echo "> compiling server"
+echo "> compiling server jar"
 javac -d classes -cp .:classes:lib/ChatService.jar:lib/ChatServiceImpl.jar src/ChatServer.java
 
-echo "> compiling client"
+echo "> compiling client jar"
 javac -d classes -cp .:classes:lib/ChatService.jar:lib/ClientEndpointImpl.jar src/ChatClient.java
 
-cp="classes"
-
-#Can not be run in subshell
+#export does not influence environment in subshell therefore:
 echo "*Done* Remember to run 'export CLASSPATH=$cp'"

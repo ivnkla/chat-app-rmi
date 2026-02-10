@@ -1,6 +1,4 @@
 #!/bin/bash
 
-
-#java -classpath .:classes:lib/Hello.jar:lib/HelloImpl.jar HelloServer
-
+#run the chatclient
 java -classpath .:classes:lib/Hello.jar ChatClient localhost 0
