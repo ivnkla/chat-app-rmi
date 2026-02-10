@@ -4,6 +4,12 @@ echo "> cleaning up"
 rm -rf classes lib
 mkdir -p classes lib
 
+echo "> compiling message object files"
+javac -d classes -classpath .:classes src/Message.java
+cd classes
+jar cf ../lib/Message.jar Message.class
+cd ..
+
 echo "> compiling client interface"
 javac -d classes -classpath .:classes src/ClientEndpoint.java
 cd classes
@@ -15,12 +21,6 @@ echo "> compiling server object files"
 javac -d classes -classpath .:classes src/ChatService.java
 cd classes
 jar cf ../lib/ChatService.jar ChatService.class
-cd ..
-
-echo "> compiling message object files"
-javac -d classes -classpath .:classes src/Message.java
-cd classes
-jar cf ../lib/Message.jar Message.class
 cd ..
 
 

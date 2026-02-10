@@ -39,13 +39,9 @@ public  class ChatServiceImpl implements ChatService {
 	public int join(ClientEndpoint client_stub) throws RemoteException {
 		int newID = createID();
 		System.out.println(String.format("[%s] Initalizing new client %d", date.toString(), newID));
+		client_stub.history(messages);
 		clients.put(newID,client_stub);
-		client_stub.sendMessage(String.format("%s %d",welcome_message, newID));
-		client_stub.sendMessage(String.format("--- Start of History ---"));
-		for (Message msg: messages) {
-			client_stub.sendMessage(String.format("[%s] %d: %s", msg.timestamp, msg.sender, msg.content));
-		}
-		client_stub.sendMessage(String.format("--- End of History ---"));
+		//TODO ADD history callback
 		
 		return newID;
 	}
@@ -53,14 +49,14 @@ public  class ChatServiceImpl implements ChatService {
 	@Override
 	public void sendMessage(int client_id, String msg){
 		System.out.println(String.format("[%s] New Message from %d at : %s", date.toString(), client_id, msg));
-		
-		messages.add(new Message(msg,date.toString(),client_id));
+		Message new_message = new Message(msg,date.toString(),client_id);
+		messages.add(new_message);
 		//TODO check for threadsafety
 		//ToDo add client identifier, probably as own object
 		for (Map.Entry<Integer, ClientEndpoint> client : clients.entrySet()) {
 			if (client_id != client.getKey()){
 				try {
-					client.getValue().sendMessage(String.format("[%s] New Message from %d at : %s", date.toString(), client_id, msg));
+					client.getValue().sendMessage(new_message);
 				} catch (RemoteException remoteException) {
 					System.err.println(remoteException);
 				}

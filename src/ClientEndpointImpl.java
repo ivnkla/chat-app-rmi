@@ -1,12 +1,25 @@
 import java.rmi.RemoteException;
+import java.util.Date;
+import java.util.List;
 
 public class ClientEndpointImpl implements ClientEndpoint {
 
+    //TODO add debug level
+
     @Override
-    public void sendMessage(String msg) throws RemoteException {
-        System.out.println(msg);
+    public void sendMessage(Message msg) throws RemoteException {
+        System.out.printf("[%s] Received new Message from %d: %s\n", new Date().toString(),msg.sender_id, msg.content);
     }
 
+    @Override
+    public void history(List<Message> messages) {
+        System.out.println("--- Begin of History ---");
+        for(Message msg: messages) {
+            System.out.printf("[%s] %d sent: %s\n", msg.timestamp_sent, msg.sender_id, msg.content);
+        }
+        System.out.println("--- End of History ---");
+    }
 
+    
     
 }
