@@ -7,6 +7,8 @@ import java.rmi.registry.*;
 public class ChatServer {
 
   public static void  main(String [] args) {
+
+      // Recovering chat history
 	  String file_path = "./serverdata";
 	  ChatServiceImpl h;
 	  try {
@@ -18,7 +20,9 @@ public class ChatServer {
 		System.err.printf("Unexpected IO-Exception: %s", io_exception.getMessage());
 		io_exception.printStackTrace();
 		return;
-	}
+      }
+
+      // Making the server available in the rmi
 	  try {
 		  // Create a ChatServer remote object
 	    ChatService h_stub = (ChatService) UnicastRemoteObject.exportObject(h, 0);

@@ -12,11 +12,16 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
+/* ChatServiceImpl.java
+ * The actual implementation of ChatService, remote
+ * methods callable by clients. Btw client has no
+ * idea of the implementation
+ */
 public class ChatServiceImpl implements ChatService, Serializable{
 
 	//Using a Dictornary with only atomic functions to guarantee threadsafty
-	private ConcurrentHashMap<Integer,ClientEndpoint> clients = new ConcurrentHashMap<Integer,ClientEndpoint>();;
-	private List<Message> messages = Collections.synchronizedList(new ArrayList<>());; 
+	private ConcurrentHashMap<Integer,ClientEndpoint> clients = new ConcurrentHashMap<Integer,ClientEndpoint>();
+	private List<Message> messages = Collections.synchronizedList(new ArrayList<>());
 	private Random random = new Random();
 	private Date date = new Date();
 	private final int range = 20000;
@@ -32,7 +37,6 @@ public class ChatServiceImpl implements ChatService, Serializable{
 	> To send messages enter a message and press [Enter]. 
 	> To end the programm press [Enter] without typing a message.
 	""";
-	
 
 	//get a random free ID for a new client
 	private int createID(){
@@ -48,7 +52,7 @@ public class ChatServiceImpl implements ChatService, Serializable{
 
 	//Interface to join the Chatplatform
 	// !! has to be atomic
-	public int join(ClientEndpoint client_stub) throws RemoteException {
+	public synchronized int join(ClientEndpoint client_stub) throws RemoteException {
 		int newID = createID();
 		System.out.println(String.format("[%s] Initalizing new client %d", date.toString(), newID));
 		client_stub.history(messages, String.format(welcome_message, newID));
@@ -59,7 +63,7 @@ public class ChatServiceImpl implements ChatService, Serializable{
 	}
 
 	@Override
-	public void sendMessage(int client_id, String msg){
+	public synchronized void sendMessage(int client_id, String msg){
 		System.out.println(String.format("[%s] New Message from %d at : %s", date.toString(), client_id, msg));
 		Message new_message = new Message(msg,date.toString(),client_id);
 		messages.add(new_message);
@@ -84,7 +88,7 @@ public class ChatServiceImpl implements ChatService, Serializable{
 
 	//!! has to be atomic		
 	@Override
-	public int leave(int id) throws RemoteException {
+	public synchronized int leave(int id) throws RemoteException {
 		System.out.println(String.format("[%s] Removing client %d", date.toString(), id));
 		clients.remove(id);
 		return id;

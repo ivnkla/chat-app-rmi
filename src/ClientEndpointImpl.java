@@ -2,6 +2,10 @@ import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.List;
 
+/* ClientEndpointImpl.java
+ * Actually implements the interface.
+ * It actually behave like a server
+ */
 public class ClientEndpointImpl implements ClientEndpoint {
 
     //TODO add debug level
@@ -20,7 +24,4 @@ public class ClientEndpointImpl implements ClientEndpoint {
         }
         System.out.println("--- End of History ---");
     }
-
-    
-    
 }

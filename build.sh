@@ -52,4 +52,5 @@ echo "> compiling client jar"
 javac -d classes -cp .:classes:lib/ChatService.jar:lib/ClientEndpointImpl.jar src/ChatClient.java
 
 #export does not influence environment in subshell therefore:
+# export CLASSPATH=classes;
 echo "*Done* Remember to run 'export CLASSPATH=$cp'"
