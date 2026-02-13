@@ -51,6 +51,12 @@ javac -d classes -cp .:classes:lib/ChatService.jar:lib/ChatServiceImpl.jar src/C
 echo "> compiling client jar"
 javac -d classes -cp .:classes:lib/ChatService.jar:lib/ClientEndpointImpl.jar src/ChatClient.java
 
-#export does not influence environment in subshell therefore:
-# export CLASSPATH=classes;
-echo "*Done* Remember to run 'export CLASSPATH=$cp'"
+#export CLASSPATH=classes does not influence environment in subshell therefore:
+echo "*Done*"
+echo
+
+echo "- Open a new server terminal and run ./rmi then ./server"
+echo "- Open as many as client terminal you want and run ./client"
+
+echo
+echo "Remember to run in each subshell 'export CLASSPATH=classes'"
