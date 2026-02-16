@@ -68,20 +68,19 @@ public class ChatServiceImpl implements ChatService, Serializable{
 	}
 
 	@Override
+    // no sync risk since the atomicity guaranteed with keyword
 	public synchronized void sendMessage(int client_id, String msg){
 		System.out.println(String.format("[%s] New src.common.Message from %d at : %s", date.toString(), client_id, msg));
 		Message new_message = new Message(msg,date.toString(),client_id);
 		messages.add(new_message);
 		serialize();
-		
-		//TODO check for threadsafety
+
 		for (Map.Entry<Integer, ClientEndpoint> client : clients.entrySet()) {
 			if (client_id != client.getKey()){
 				try {
 					client.getValue().sendMessage(new_message);
 				} catch (ConnectException c_exception) {
 					System.out.printf("Client %d is unreachable => removing %d from client list\n", client.getKey(), client.getKey());
-					//TODO is here a synchronization risk?
 					clients.remove(client.getKey());
 				} catch (RemoteException remoteException) {
 					System.err.printf("Unexpected Remote Exception in src.server.ChatServiceImpl: %s\n" ,remoteException);
@@ -99,6 +98,7 @@ public class ChatServiceImpl implements ChatService, Serializable{
 		return id;
 	}
 
+    // not to be used by any client, better to be separated later
 	private void serialize(){
 		try (FileOutputStream file_out = new FileOutputStream(file_path);
 			ObjectOutputStream object_out = new ObjectOutputStream(file_out);
