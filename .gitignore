@@ -3,4 +3,5 @@ chat.iml
 classes
 lib
 src/server/serverdata
+src/.DS_Store
 
