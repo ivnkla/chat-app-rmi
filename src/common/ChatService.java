@@ -1,6 +1,8 @@
+package common;
+
 import java.rmi.*;
 
-/* ChatService.java
+/* src.common.ChatService.java
  * Remote methods that the server propose for any client
  */
 public interface ChatService extends Remote {

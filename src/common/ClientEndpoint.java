@@ -1,8 +1,10 @@
+package common;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-/* ClientEndpoint.java
+/* src.common.ClientEndpoint.java
  * Provides interface for the server to communicate with clients.
  */
 

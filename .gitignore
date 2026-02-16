@@ -2,5 +2,5 @@
 chat.iml
 classes
 lib
-serverdata
+src/server/serverdata
 

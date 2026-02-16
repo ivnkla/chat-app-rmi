@@ -1,3 +1,8 @@
+package server;
+
+import common.ChatService;
+import common.ClientEndpoint;
+import common.Message;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,15 +17,15 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
-/* ChatServiceImpl.java
- * The actual implementation of ChatService, remote
+/* src.server.ChatServiceImpl.java
+ * The actual implementation of src.common.ChatService, remote
  * methods callable by clients. Btw client has no
  * idea of the implementation
  */
 public class ChatServiceImpl implements ChatService, Serializable{
 
 	//Using a Dictornary with only atomic functions to guarantee threadsafty
-	private ConcurrentHashMap<Integer,ClientEndpoint> clients = new ConcurrentHashMap<Integer,ClientEndpoint>();
+	private ConcurrentHashMap<Integer, ClientEndpoint> clients = new ConcurrentHashMap<Integer,ClientEndpoint>();
 	private List<Message> messages = Collections.synchronizedList(new ArrayList<>());
 	private Random random = new Random();
 	private Date date = new Date();
@@ -64,7 +69,7 @@ public class ChatServiceImpl implements ChatService, Serializable{
 
 	@Override
 	public synchronized void sendMessage(int client_id, String msg){
-		System.out.println(String.format("[%s] New Message from %d at : %s", date.toString(), client_id, msg));
+		System.out.println(String.format("[%s] New src.common.Message from %d at : %s", date.toString(), client_id, msg));
 		Message new_message = new Message(msg,date.toString(),client_id);
 		messages.add(new_message);
 		serialize();
@@ -79,7 +84,7 @@ public class ChatServiceImpl implements ChatService, Serializable{
 					//TODO is here a synchronization risk?
 					clients.remove(client.getKey());
 				} catch (RemoteException remoteException) {
-					System.err.printf("Unexpected Remote Exception in ChatServiceImpl: %s\n" ,remoteException);
+					System.err.printf("Unexpected Remote Exception in src.server.ChatServiceImpl: %s\n" ,remoteException);
 				}
 		}
 			

@@ -1,8 +1,12 @@
+package common;
+
+import server.ChatServiceImpl;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-/* Deserializer.java
+/* src.common.Deserializer.java
 * Deserialise a file
 * In our case, it allows the server to recover history if it exists
  */

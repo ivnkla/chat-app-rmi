@@ -1,3 +1,7 @@
+package server;
+
+import common.ChatService;
+import common.Deserializer;
 
 import java.rmi.server.*;
 import java.io.FileNotFoundException;
@@ -10,7 +14,7 @@ public class ChatServer {
 
       // Recovering chat history
 	  String file_path = "./serverdata";
-	  ChatServiceImpl h;
+	  ChatServiceImpl h = null;
 	  try {
 		h = Deserializer.deserialize(file_path);
 	  } catch (FileNotFoundException fnf_exception) {
@@ -24,7 +28,7 @@ public class ChatServer {
 
       // Making the server available in the rmi
 	  try {
-		  // Create a ChatServer remote object
+		  // Create a src.server.ChatServer remote object
 	    ChatService h_stub = (ChatService) UnicastRemoteObject.exportObject(h, 0);
 
 	    // Register the remote object in RMI registry with a given identifier

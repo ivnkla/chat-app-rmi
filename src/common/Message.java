@@ -1,3 +1,5 @@
+package common;
+
 /*
 The datatype representing messages accross Server and Clients.
 @parameter content: The String containing the actual message
@@ -13,7 +15,7 @@ public class Message implements Serializable{
     public final String timestamp_sent;
     public final int sender_id;
 
-    Message(String content, String timestamp_sent, int sender){
+    public Message(String content, String timestamp_sent, int sender){
         this.content = content;
         this.timestamp_sent = timestamp_sent;
         this.sender_id = sender;

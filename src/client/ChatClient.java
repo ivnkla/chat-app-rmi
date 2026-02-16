@@ -1,3 +1,8 @@
+package client;
+
+import common.ChatService;
+import common.ClientEndpoint;
+
 import java.rmi.RemoteException;
 import java.rmi.registry.*;
 import java.rmi.server.UnicastRemoteObject;
@@ -9,7 +14,7 @@ public class ChatClient {
 	
 	try {
 	  if (args.length < 2) {
-	   System.out.println("Usage: java ChatClient <rmiregistry host> <rmiregistry port>");
+	   System.out.println("Usage: java src.client.ChatClient <rmiregistry host> <rmiregistry port>");
 	   return;}
 
 	String host = args[0];

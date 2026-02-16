@@ -1,8 +1,13 @@
+package client;
+
+import common.ClientEndpoint;
+import common.Message;
+
 import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.List;
 
-/* ClientEndpointImpl.java
+/* src.client.ClientEndpointImpl.java
  * Actually implements the interface.
  * It actually behave like a server
  */
@@ -12,7 +17,7 @@ public class ClientEndpointImpl implements ClientEndpoint {
 
     @Override
     public void sendMessage(Message msg) throws RemoteException {
-        System.out.printf("[%s] Received new Message from %5d: %s\n", new Date().toString(),msg.sender_id, msg.content);
+        System.out.printf("[%s] Received new src.common.Message from %5d: %s\n", new Date().toString(),msg.sender_id, msg.content);
     }
 
     @Override
