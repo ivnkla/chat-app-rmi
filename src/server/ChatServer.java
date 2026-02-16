@@ -13,13 +13,13 @@ public class ChatServer {
   public static void  main(String [] args) {
 
       // Recovering chat history
-	  String file_path = "./serverdata";
+	  String file_path = "./src/server/serverdata";
 	  ChatServiceImpl h = null;
 	  try {
 		h = Deserializer.deserialize(file_path);
 	  } catch (FileNotFoundException fnf_exception) {
 		System.out.println("No savefile found, starting with empty history");
-		h = new ChatServiceImpl ("./serverdata");
+		h = new ChatServiceImpl (file_path);
 	  } catch (IOException io_exception) {
 		System.err.printf("Unexpected IO-Exception: %s", io_exception.getMessage());
 		io_exception.printStackTrace();

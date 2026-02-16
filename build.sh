@@ -5,6 +5,7 @@
 echo "> cleaning up"
 rm -rf classes lib
 mkdir -p classes lib
+pkill -f rmiregistry
 
 echo "> compiling ..."
 javac -d classes src/common/*.java src/server/*.java src/client/*.java
